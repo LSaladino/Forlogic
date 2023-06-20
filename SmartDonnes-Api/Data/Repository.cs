@@ -1,4 +1,7 @@
-namespace SmartDonnes_Api
+using Microsoft.EntityFrameworkCore;
+using SmartDonnes_Api.Models;
+
+namespace SmartDonnes_Api.Data
 {
 
     public class Repository : IRepository
@@ -23,9 +26,19 @@ namespace SmartDonnes_Api
             throw new NotImplementedException();
         }
 
-        public Task<Cliente[]> GetAllClientAsynch(bool IncludeAvaliacao)
+        public async Task<Cliente[]> GetAllClientAsynch(bool IncludeAvaliacao)
         {
-            throw new NotImplementedException();
+             IQueryable<Cliente>? query = _context.Clientes;
+
+            if (IncludeAvaliacao)
+            {
+                query = query!.Include(ca => ca.ClienteAvaliacao!).ThenInclude(av => av.Avaliacao);
+            }
+
+            query = query!.AsNoTracking()
+                         .OrderBy(c => c.Id);
+
+            return await query.ToArrayAsync();
         }
 
         public Task<Avaliacao> GetAvalAsynchById(int AvaliacaoId, bool IncludeCliente)

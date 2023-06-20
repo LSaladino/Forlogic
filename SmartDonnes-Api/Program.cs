@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using SmartDonnes_Api;
+using SmartDonnes_Api.Data;
+using SmartDonnes_Api.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,4 +1,4 @@
-namespace SmartDonnes_Api
+namespace SmartDonnes_Api.Models
 {
 
     public class ClienteAvaliacao
@@ -11,10 +11,10 @@ namespace SmartDonnes_Api
             this.AvaliacaoId = avaliacaoId;
 
         }
-        public int ClienteId { get; set; }
+        public int? ClienteId { get; set; }
         public Cliente? Cliente { get; set; }
 
-        public int AvaliacaoId { get; set; }
+        public int? AvaliacaoId { get; set; }
         public Avaliacao? Avaliacao { get; set; }
     }
 }

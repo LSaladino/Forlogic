@@ -1,6 +1,8 @@
-namespace SmartDonnes_Api{
+namespace SmartDonnes_Api.Models
+{
 
-    public class Cliente{
+    public class Cliente
+    {
         public Cliente() { }
         public int Id { get; set; }
         public string? RazaoSocial { get; set; }

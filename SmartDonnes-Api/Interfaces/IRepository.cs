@@ -1,4 +1,4 @@
-namespace SmartDonnes_Api
+namespace SmartDonnes_Api.Models
 {
     public interface IRepository
     {

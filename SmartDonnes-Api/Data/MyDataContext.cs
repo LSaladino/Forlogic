@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace SmartDonnes_Api
+namespace SmartDonnes_Api.Models
 {
 
     public class MyDataContext : DbContext
