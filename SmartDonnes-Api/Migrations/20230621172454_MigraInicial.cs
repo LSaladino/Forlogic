@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SmartDonnes_Api.Migrations
 {
     /// <inheritdoc />
-    public partial class InitMigration : Migration
+    public partial class MigraInicial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -35,6 +35,7 @@ namespace SmartDonnes_Api.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RazaoSocial = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PessoaContato = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Cnpj = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     DataCliente = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -65,6 +66,11 @@ namespace SmartDonnes_Api.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Clientes_Cnpj",
+                table: "Clientes",
+                column: "Cnpj");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ClientesAvaliacoes_AvaliacaoId",

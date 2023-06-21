@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SmartDonnes_Api;
 using SmartDonnes_Api.Models;
 
 #nullable disable
@@ -13,8 +12,8 @@ using SmartDonnes_Api.Models;
 namespace SmartDonnes_Api.Migrations
 {
     [DbContext(typeof(MyDataContext))]
-    [Migration("20230618163705_InitMigration")]
-    partial class InitMigration
+    [Migration("20230621172454_MigraInicial")]
+    partial class MigraInicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,7 +25,7 @@ namespace SmartDonnes_Api.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("SmartDonnes_Api.Avaliacao", b =>
+            modelBuilder.Entity("SmartDonnes_Api.Models.Avaliacao", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -51,13 +50,16 @@ namespace SmartDonnes_Api.Migrations
                     b.ToTable("Avaliacoes");
                 });
 
-            modelBuilder.Entity("SmartDonnes_Api.Cliente", b =>
+            modelBuilder.Entity("SmartDonnes_Api.Models.Cliente", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Cnpj")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("DataCliente")
                         .HasColumnType("datetime2");
@@ -70,15 +72,17 @@ namespace SmartDonnes_Api.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Cnpj");
+
                     b.ToTable("Clientes");
                 });
 
-            modelBuilder.Entity("SmartDonnes_Api.ClienteAvaliacao", b =>
+            modelBuilder.Entity("SmartDonnes_Api.Models.ClienteAvaliacao", b =>
                 {
-                    b.Property<int>("ClienteId")
+                    b.Property<int?>("ClienteId")
                         .HasColumnType("int");
 
-                    b.Property<int>("AvaliacaoId")
+                    b.Property<int?>("AvaliacaoId")
                         .HasColumnType("int");
 
                     b.HasKey("ClienteId", "AvaliacaoId");
@@ -88,15 +92,15 @@ namespace SmartDonnes_Api.Migrations
                     b.ToTable("ClientesAvaliacoes");
                 });
 
-            modelBuilder.Entity("SmartDonnes_Api.ClienteAvaliacao", b =>
+            modelBuilder.Entity("SmartDonnes_Api.Models.ClienteAvaliacao", b =>
                 {
-                    b.HasOne("SmartDonnes_Api.Avaliacao", "Avaliacao")
+                    b.HasOne("SmartDonnes_Api.Models.Avaliacao", "Avaliacao")
                         .WithMany("ClienteAvaliacao")
                         .HasForeignKey("AvaliacaoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SmartDonnes_Api.Cliente", "Cliente")
+                    b.HasOne("SmartDonnes_Api.Models.Cliente", "Cliente")
                         .WithMany("ClienteAvaliacao")
                         .HasForeignKey("ClienteId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -107,12 +111,12 @@ namespace SmartDonnes_Api.Migrations
                     b.Navigation("Cliente");
                 });
 
-            modelBuilder.Entity("SmartDonnes_Api.Avaliacao", b =>
+            modelBuilder.Entity("SmartDonnes_Api.Models.Avaliacao", b =>
                 {
                     b.Navigation("ClienteAvaliacao");
                 });
 
-            modelBuilder.Entity("SmartDonnes_Api.Cliente", b =>
+            modelBuilder.Entity("SmartDonnes_Api.Models.Cliente", b =>
                 {
                     b.Navigation("ClienteAvaliacao");
                 });

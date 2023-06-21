@@ -28,7 +28,7 @@ namespace SmartDonnes_Api.Data
 
         public async Task<Cliente[]> GetAllClientAsynch(bool IncludeAvaliacao)
         {
-             IQueryable<Cliente>? query = _context.Clientes;
+            IQueryable<Cliente>? query = _context.Clientes;
 
             if (IncludeAvaliacao)
             {
@@ -46,9 +46,24 @@ namespace SmartDonnes_Api.Data
             throw new NotImplementedException();
         }
 
-        public Task<Cliente> GetClientAsynckById(int ClienteId, bool IncludeAvaliacao)
+        public async Task<Cliente> GetClientAsyncByCnpj(string cnpjNumber)
         {
-            throw new NotImplementedException();
+            IQueryable<Cliente>? query = _context.Clientes;
+
+            query = query!.AsNoTracking().Where(cli => cli.Cnpj == cnpjNumber).OrderBy(cli => cli.Cnpj);
+
+            return await query.FirstOrDefaultAsync();
+        }
+
+        public async Task<Cliente> GetClientAsynckById(int ClienteId, bool IncludeAvaliacao)
+        {
+            IQueryable<Cliente>? query = _context.Clientes; 
+
+            query = query!.AsNoTracking().Where(c => c.Id == ClienteId).OrderBy(c => c.Id);
+
+            return await query.FirstOrDefaultAsync();
+
+
         }
 
         public async Task<bool> SaveDataAsynch()

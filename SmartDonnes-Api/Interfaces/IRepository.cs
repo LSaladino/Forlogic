@@ -10,6 +10,7 @@ namespace SmartDonnes_Api.Models
         // Cliente
         Task<Cliente[]> GetAllClientAsynch(bool IncludeAvaliacao);
         Task<Cliente> GetClientAsynckById(int ClienteId, bool IncludeAvaliacao);
+        Task<Cliente> GetClientAsyncByCnpj(string cnpjNumber);
 
         // Avaliacao
         Task<Avaliacao[]> GetAllAvalAsynch(bool IncludeCliente);

@@ -18,6 +18,8 @@ namespace SmartDonnes_Api.Models
                 k.ClienteId,
                 k.AvaliacaoId
             });
+
+            modelBuilder.Entity<Cliente>().HasIndex(c => c.Cnpj);
         }
     }
 }

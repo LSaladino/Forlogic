@@ -28,6 +28,40 @@ namespace SmartDonnes_Api
             }
         }
 
+        [HttpGet("{clienteId}")]
+        public async Task<IActionResult> GetByCnpj(int clienteId, bool IncludeAvaliacao)
+        {
+            try
+            {
+                var myResult = await _repo.GetClientAsynckById(clienteId, IncludeAvaliacao);
+                return Ok(myResult);
+            }
+            catch (System.Exception ex)
+            {
+
+                return BadRequest($"Error: {ex.Message}");
+            }
+        }
+
+        [HttpGet("ByCnpj/{cnpj}")]
+        public async Task<IActionResult> GetByCnpj(string cnpj)
+        {
+            try
+            {
+                var myResult = await _repo.GetClientAsyncByCnpj(cnpj);
+                if (myResult == null)
+                {
+                    return BadRequest("NULL");
+                }
+                return Ok(myResult);
+            }
+            catch (System.Exception ex)
+            {
+
+                return BadRequest($"Error: {ex.Message}");
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post(Cliente cliente)
         {
