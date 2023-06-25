@@ -14,12 +14,18 @@ namespace SmartDonnes_Api.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ClienteAvaliacao>().HasKey(k => new {
+            modelBuilder.Entity<ClienteAvaliacao>().HasKey(k => new
+            {
                 k.ClienteId,
                 k.AvaliacaoId
             });
 
             modelBuilder.Entity<Cliente>().HasIndex(c => c.Cnpj);
+
+            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            {
+                relationship.DeleteBehavior = DeleteBehavior.Restrict;
+            }
         }
     }
 }

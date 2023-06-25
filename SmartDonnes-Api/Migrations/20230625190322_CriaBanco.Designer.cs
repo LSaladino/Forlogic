@@ -12,8 +12,8 @@ using SmartDonnes_Api.Models;
 namespace SmartDonnes_Api.Migrations
 {
     [DbContext(typeof(MyDataContext))]
-    [Migration("20230621172454_MigraInicial")]
-    partial class MigraInicial
+    [Migration("20230625190322_CriaBanco")]
+    partial class CriaBanco
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,16 +36,18 @@ namespace SmartDonnes_Api.Migrations
                     b.Property<int>("ClienteId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("MesAnoRef")
+                    b.Property<DateTime>("mesAno")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("MotivoNota")
+                    b.Property<string>("motivoAvaliacao")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Nota")
+                    b.Property<int>("notaAvaliacao")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClienteId");
 
                     b.ToTable("Avaliacoes");
                 });
@@ -92,18 +94,29 @@ namespace SmartDonnes_Api.Migrations
                     b.ToTable("ClientesAvaliacoes");
                 });
 
+            modelBuilder.Entity("SmartDonnes_Api.Models.Avaliacao", b =>
+                {
+                    b.HasOne("SmartDonnes_Api.Models.Cliente", "Cliente")
+                        .WithMany()
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Cliente");
+                });
+
             modelBuilder.Entity("SmartDonnes_Api.Models.ClienteAvaliacao", b =>
                 {
                     b.HasOne("SmartDonnes_Api.Models.Avaliacao", "Avaliacao")
-                        .WithMany("ClienteAvaliacao")
+                        .WithMany("clientesAvaliados")
                         .HasForeignKey("AvaliacaoId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("SmartDonnes_Api.Models.Cliente", "Cliente")
-                        .WithMany("ClienteAvaliacao")
+                        .WithMany()
                         .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Avaliacao");
@@ -113,12 +126,7 @@ namespace SmartDonnes_Api.Migrations
 
             modelBuilder.Entity("SmartDonnes_Api.Models.Avaliacao", b =>
                 {
-                    b.Navigation("ClienteAvaliacao");
-                });
-
-            modelBuilder.Entity("SmartDonnes_Api.Models.Cliente", b =>
-                {
-                    b.Navigation("ClienteAvaliacao");
+                    b.Navigation("clientesAvaliados");
                 });
 #pragma warning restore 612, 618
         }

@@ -16,5 +16,7 @@ namespace SmartDonnes_Api.Models
 
         public int? AvaliacaoId { get; set; }
         public Avaliacao? Avaliacao { get; set; }
+
+        
     }
 }

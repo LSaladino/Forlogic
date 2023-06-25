@@ -74,3 +74,7 @@ C:\Oficinas\Donnes\smartdonnes-api\obj\Debug\net7.0\refint\SmartDonnes-Api.dll
 C:\Oficinas\Donnes\smartdonnes-api\obj\Debug\net7.0\SmartDonnes-Api.pdb
 C:\Oficinas\Donnes\smartdonnes-api\obj\Debug\net7.0\SmartDonnes-Api.genruntimeconfig.cache
 C:\Oficinas\Donnes\smartdonnes-api\obj\Debug\net7.0\ref\SmartDonnes-Api.dll
+C:\Oficinas\Donnes\smartdonnes-api\bin\Debug\net7.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Oficinas\Donnes\smartdonnes-api\bin\Debug\net7.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Oficinas\Donnes\smartdonnes-api\bin\Debug\net7.0\Newtonsoft.Json.dll
+C:\Oficinas\Donnes\smartdonnes-api\bin\Debug\net7.0\Newtonsoft.Json.Bson.dll

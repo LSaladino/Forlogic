@@ -6,27 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SmartDonnes_Api.Migrations
 {
     /// <inheritdoc />
-    public partial class MigraInicial : Migration
+    public partial class CriaBanco : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Avaliacoes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    MesAnoRef = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ClienteId = table.Column<int>(type: "int", nullable: false),
-                    Nota = table.Column<int>(type: "int", nullable: false),
-                    MotivoNota = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Avaliacoes", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Clientes",
                 columns: table => new
@@ -44,6 +28,28 @@ namespace SmartDonnes_Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Avaliacoes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    mesAno = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    notaAvaliacao = table.Column<int>(type: "int", nullable: false),
+                    motivoAvaliacao = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClienteId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Avaliacoes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Avaliacoes_Clientes_ClienteId",
+                        column: x => x.ClienteId,
+                        principalTable: "Clientes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ClientesAvaliacoes",
                 columns: table => new
                 {
@@ -58,14 +64,19 @@ namespace SmartDonnes_Api.Migrations
                         column: x => x.AvaliacaoId,
                         principalTable: "Avaliacoes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ClientesAvaliacoes_Clientes_ClienteId",
                         column: x => x.ClienteId,
                         principalTable: "Clientes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Avaliacoes_ClienteId",
+                table: "Avaliacoes",
+                column: "ClienteId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Clientes_Cnpj",

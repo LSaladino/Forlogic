@@ -21,24 +21,48 @@ namespace SmartDonnes_Api.Data
             _context.Remove(entity);
         }
 
-        public Task<Avaliacao[]> GetAllAvalAsynch(bool IncludeCliente)
+        public async Task<Avaliacao[]> GetAllAvalAsynch(bool IncludeCliente)
         {
-            throw new NotImplementedException();
-        }
+            IQueryable<Avaliacao>? query = _context.Avaliacoes;
 
-        public async Task<Cliente[]> GetAllClientAsynch(bool IncludeAvaliacao)
-        {
-            IQueryable<Cliente>? query = _context.Clientes;
-
-            if (IncludeAvaliacao)
+            if (IncludeCliente)
             {
-                query = query!.Include(ca => ca.ClienteAvaliacao!).ThenInclude(av => av.Avaliacao);
+                query = query!.Include(av => av.clientesAvaliados!).ThenInclude(av => av.Cliente);
             }
 
             query = query!.AsNoTracking()
                          .OrderBy(c => c.Id);
 
             return await query.ToArrayAsync();
+        }
+
+        public async Task<Cliente[]> GetAllClientAsynch(bool IncludeAvaliacao)
+        {
+            IQueryable<Cliente>? query = _context.Clientes;
+
+            // if (IncludeAvaliacao)
+            // {
+            //     query = query!.Include(ca => ca.clientesAvaliados!).ThenInclude(av => av.Avaliacao);
+            // }
+
+            query = query!.AsNoTracking()
+                         .OrderBy(c => c.Id);
+
+            return await query.ToArrayAsync();
+        }
+
+        public async Task<Cliente[]> GetAllClientTwoFieldsAsynch(bool IncludeAvaliacao)
+        {
+            IQueryable<Cliente>? query = _context.Clientes;
+
+            query = query!.Select(c => new Cliente()
+            {
+                Id = c.Id,
+                RazaoSocial = c.RazaoSocial
+            }).AsQueryable();
+
+            return await query.ToArrayAsync();
+
         }
 
         public Task<Avaliacao> GetAvalAsynchById(int AvaliacaoId, bool IncludeCliente)
@@ -57,7 +81,7 @@ namespace SmartDonnes_Api.Data
 
         public async Task<Cliente> GetClientAsynckById(int ClienteId, bool IncludeAvaliacao)
         {
-            IQueryable<Cliente>? query = _context.Clientes; 
+            IQueryable<Cliente>? query = _context.Clientes;
 
             query = query!.AsNoTracking().Where(c => c.Id == ClienteId).OrderBy(c => c.Id);
 
